@@ -1,0 +1,1 @@
+- Prefers concise, tightly scoped code analysis limited to the specifically requested file or issue. Confidence: 0.9

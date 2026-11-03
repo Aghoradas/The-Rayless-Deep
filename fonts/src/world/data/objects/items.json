@@ -1,0 +1,100 @@
+{
+    "objects": [
+        {
+            "id": "cell_door",
+            "name": "cell door",
+            "aliases": [
+                "door",
+                "cell door"
+            ],
+            "desc": {
+                "description": "A round, heavy wooden door is set into the stone above you. A faint sliver of light seeps from beyond it.",
+                "examine": "The door is thick and round, and made of dark, weathered wood, reinforced with crude iron bands. The wood is swollen from years of dampness, and the iron is mottled with rust. A faint line of pale light seeps from its edges. You can see no handle or latch from this side.",
+                "sight": "The door is thick and round, made of a dark wood, swollen from dampness and reinforced with crude iron bands. A thin line of pale light escapes from its edges",
+                "touch": "The wood is cold and rough beneath your fingers. Moisture has softened parts of the grain, while the iron feels bitterly cold.",
+                "sound": "When you press against it, the door gives a low groan. Somewhere within it, old hinges shift with a faint metallic creak.",
+                "smell": "The wood carries the smell of damp rot and old iron.",
+                "taste": "Uh.. you think about it, but decide not to."
+            },
+            "visibility": {
+                "visible": true,
+                "discoverable": true
+            },
+            "interactions": [
+                "examine",
+                "open",
+                "close",
+                "push"
+            ],
+            "properties": {
+                "movable": false,
+                "portable": false,
+                "breakable": false
+            }
+        },
+        {
+            "id": "iron_bar",
+            "name": "iron bar",
+            "aliases": [
+                "bar"
+            ],
+            "desc": {
+                "examine": "Its just an iron bar, heavily weathered and mottled with rust.",
+                "sight": "Something land and narrow lies within reach, though the darkness makes its shape difficult to discern.",
+                "touch": "The iron is cold, hard, wet, and rough with rust.",
+                "sound": "The bar gives a dull metallic sound when struck against the stone.",
+                "smell": "You smell nothing but rusted iron.",
+                "taste": "Uh.. you think about it, but decide not to."
+            },
+            "visibility": {
+                "visible": true,
+                "discoverable": true
+            },
+            "interactions": [
+                "examine",
+                "look",
+                "touch",
+                "listen",
+                "smell",
+                "take",
+                "use"
+            ],
+            "properties": {
+                "movable": true,
+                "portable": true,
+                "breakable": false
+            }
+        },
+        {
+            "id": "loose_stone",
+            "name": "loose stone",
+            "aliases": [
+                "stone",
+                "rock"
+            ],
+            "desc": {
+                "examine": "A stone rests near the trickling leak, partially concealed among the damp rock.",
+                "sight": "The stone sits near the leak where the surrounding stone has been softened by years of dripping water.",
+                "touch": "The stone is cold, damp, and rough. It shifts slightly when you press it.",
+                "sound": "Water trickles nearby, occasionally striking the stone with a soft, hollow sound."
+            },
+            "visibility": {
+                "visible": true,
+                "discoverable": true
+            },
+            "interactions": [
+                "examine",
+                "look",
+                "touch",
+                "listen",
+                "take",
+                "use"
+            ],
+            "properties": {
+                "movable": true,
+                "portable": true,
+                "breakable": false
+            }
+        }
+    ]
+}

@@ -1,0 +1,50 @@
+{
+    "contained_rooms": 2,
+    "world_map": [
+        {
+            "room_id": 0,
+            "room_name": "cell room",
+            "generic_desc": [
+                "the darkness reveals little. you can make out only the cramped stone around you, and somewhere above, a faint pale light filters through a narrow gap in the darkness.the drip continues. damp, cold stone presses against your back and beneath you. the stale scent of old mold hangs faintly in the air.",
+                "something"
+            ],
+            "examine_desc": [
+                "you run your eyes over what little you can see. the walls are rough-cut stone, damp with age, their surfaces uneven beneath your hands. the floor is little more than the same cold stone you've been resting against. there is no furniture, no obvious fixture, and no visible way out at ground level. above you, the pale light comes through a solid barrier set into the stone."
+            ],
+            "look_desc": [
+                "you strain to see through the darkness. the stone walls are close around you, rough and uneven, but their edges quickly disapear into blackness. above, a faint pale light filters through a narrow gap. you still cannot make out what lies beyond it. there is nothing else you can clearly see."
+            ],
+            "smell_desc": "there is the smell of a very old mold. it is both slightly repelling, while being just as awkwardly entrancing.",
+            "sound_desc": "you hear faint echoes of.. something, from above you.. muffled. an unsettling drip from the darkness.",
+            "taste_desc": "you can taste the acridness in the air.",
+            "touch_desc": "the stones of this cell are rough, cold, and damp.",
+            "near_room_info": "this room is utterly in darkness.",
+            "exits": [
+                {
+                    "direction": "up",
+                    "destination": 1,
+                    "door": 0
+                }
+            ],
+            "room_items": [
+                0,
+                1,
+                2
+            ]
+        },
+        {
+            "room_id": 1,
+            "room_name": "pit_room",
+            "generic_desc": "",
+            "examine_desc": "",
+            "look_desc": "",
+            "smell_desc": "",
+            "sound_desc": "",
+            "taste_desc": "",
+            "touch_desc": "",
+            "near_room_info": "",
+            "exits": "",
+            "room_items": ""
+        }
+    ]
+}
