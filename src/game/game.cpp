@@ -1,5 +1,4 @@
 #include "game.hpp"
-#include <memory>
 #include <raylib.h>
 #include <sstream>
 #include <string>
@@ -13,6 +12,23 @@
 #include "game_event.hpp"
 #include "objects/components/comp_system.hpp"
 #include "ui/ui_port.hpp"
+
+void Game::calculate_light(Player &player) {
+    std::vector<float> light_levels;
+    for (const auto &item : player.location()->room_items) {
+        if (item->has_component(CompType::light)) {
+            light_levels.emplace_back(item->get_light());
+        }
+    }
+
+    for (const auto &item : player.inventory) {
+        if (item->components.has_component(CompType::light)) {
+            light_levels.emplace_back(item->get_light());
+        }
+    }
+
+    player.location()->light_env.calculate_room_light(light_levels);
+}
 
 void Game::init(AppState &app_state) {
 
@@ -38,6 +54,7 @@ void Game::init(AppState &app_state) {
     game_text.add_event(ui::EventType::System,
                         "Once again, my eyes adjust to this dark place.");
 
+    /*
     WorldMap world_map;
     world_map.load_items(app_state.game_state);
     std::cout << "Item test: "
@@ -47,10 +64,12 @@ void Game::init(AppState &app_state) {
     std::cout << "GameState room_items test: "
               << app_state.game_state.rooms.at(0)->room_items.at(0)->get_name()
               << std::endl;
+    */
 
     //// LOADING OBJECTS AND ROOMS FROM JSON /////////////////
     // --still under construction----------------------------
     MapLoader map_loader;
+    map_loader.load_items(app_state.game_state);
     map_loader.init_world(app_state.game_state);
     //-------------------------------------------------------
 
@@ -98,19 +117,8 @@ void Game::run(GameState &game_state) {
 }
 
 void Game::update(GameState &game_state) {
-    std::vector<float> light_levels;
-    for (const auto &item : game_state.player.location()->room_items) {
-        if (item->components.has_component(CompType::light)) {
-            light_levels.emplace_back(item->get_light());
-        }
-    }
-    for (const auto &item : game_state.player.inventory) {
-        if (item->components.has_component(CompType::light)) {
-            light_levels.emplace_back(item->get_light());
-        }
-    }
-
-    game_state.player.location()->light_env.calculate_room_light(light_levels);
+    // Place all updates here.
+    calculate_light(game_state.player);
 }
 
 void Game::parse_input(const ui::EventEntry &event) {

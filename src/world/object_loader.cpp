@@ -4,19 +4,19 @@
 #include "../app/app_state.hpp"
 #include "../objects/components/comp_part.hpp"
 #include "../objects/components/comp_system.hpp"
+#include "map_loader.hpp"
 #include "objects/components/usage_component.hpp"
-#include "world_map.hpp"
 
 #include "../objects/door.hpp"
 #include "../objects/iron_bar.hpp"
 #include "../objects/loose_stone.hpp"
 #include "../objects/object.hpp"
 
-void WorldMap::load_items(GameState &game_state) {
+void MapLoader::load_items(GameState &game_state) {
     std::vector<std::unique_ptr<Object>> world_items;
 
     auto cell_door = std::make_unique<RoomDoor>();
-    auto light_component = std::make_unique<LightSource>(true, 1.0f);
+    auto light_component = std::make_unique<LightSource>(true, 0.5f);
     cell_door->components.add_component(CompType::light,
                                         std::move(light_component));
 

@@ -75,13 +75,25 @@ class RoomDoor : public Door {
     }
     const std::vector<std::string> get_aliases() override { return aliases; }
 
-    const int get_light() override {
-        Component *component_light = components.get_component(CompType::light);
+    bool has_component(CompType type) override {
+        if (components.has_component(type)) {
+            return true;
+        }
+        return false;
+    }
+    Component *get_comp(CompType type) override {
+        return components.get_component(type);
+    }
+    const float get_light() override {
+        auto *component_light = components.get_component(CompType::light);
         if (auto door_light = dynamic_cast<LightSource *>(component_light)) {
 
-            return door_light->get_lvl();
+            if (door_light->get_lvl() > 0) {
+                std::println("Light_lvl: {}.", door_light->get_lvl());
+                return static_cast<float>(door_light->get_lvl());
+            }
         }
-        return 0;
+        return 0.0f;
     }
 
     const std::string &examine_info(int light) override {

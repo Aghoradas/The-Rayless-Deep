@@ -2,6 +2,7 @@
 
 #include "app/app_state.hpp"
 #include "game/game.hpp"
+#include "world/map_loader.hpp"
 
 int main() {
 
@@ -20,8 +21,6 @@ int main() {
 
     Game game(SCREEN_WIDTH, SCREEN_HEIGHT);
     game.init(app_state);
-    // WorldLoader world_loader;
-    // world_loader.init_world(app_state);
 
     // Loading music
     app_state.game_state.music_list["menu"] =

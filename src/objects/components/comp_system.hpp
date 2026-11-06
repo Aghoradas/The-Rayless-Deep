@@ -4,8 +4,10 @@
 #include "comp_part.hpp"
 #include <memory>
 #include <print>
-#include <string_view>
 #include <unordered_map>
+
+class UsageComponent;
+class LightSource;
 
 enum class CompType { light, usage };
 
@@ -15,11 +17,10 @@ class CompSystem {
 
   public:
     std::string get_comp_name(CompType type) {
-        return assembly.at(CompType::usage)->get_name();
+        return assembly.at(type)->get_name();
     }
     bool has_component(CompType type) {
         if (assembly.contains(type)) {
-
             return true;
         }
         return false;

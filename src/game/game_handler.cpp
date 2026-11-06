@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include "../objects/components/usage_component.hpp"
 #include "../objects/player.hpp"
 #include "app/app_state.hpp"
 #include "game_event.hpp"
@@ -94,9 +95,8 @@ std::string GameHandler::command_handler(GameState &game_state,
         break;
     }
     case Verb::move: {
-        handle_move(player, game_state.rooms, command);
         std::println("player.location(): {}", player.location()->room_name);
-        return "I'm imprisoned, with no way..it seems. Where could I move?";
+        return handle_move(player, game_state.rooms, command);
         break;
     }
     default: {
@@ -122,7 +122,6 @@ std::string GameHandler::handle_examine(Player &player,
 std::string GameHandler::handle_look(Player &player,
                                      const Command &command) const {
     if (command.target.empty()) {
-
         return player.location()->get_look();
     }
     if (command.target == "self") {
@@ -228,7 +227,15 @@ std::string GameHandler::handle_use(Player &player, const Command &command) {
     if (command.extended.empty()) {
         for (auto &item : player.inventory) {
             if (item->get_type() == command.target) {
-                return item->components.get_comp_name(CompType::usage);
+
+                if (!item->components.has_component(CompType::usage)) {
+                    return "It doesn't work that way.";
+                }
+                Component *component =
+                    item->components.get_component(CompType::usage);
+                std::string comp_name =
+                    static_cast<UsageComponent *>(component)->get_name();
+                return comp_name;
             }
         }
         for (auto &item : player.location()->room_items) {
@@ -254,8 +261,9 @@ std::string GameHandler::handle_move(Player &player,
                                      std::vector<std::shared_ptr<Room>> &rooms,
                                      const Command &command) {
     if (player.location()->exits.contains(command.target)) {
-        player.location() =
-            rooms.at(player.location()->exits.at(command.target));
+        player.set_location(
+            rooms.at(player.location()->exits.at(command.target)));
+        return player.location()->room_name;
     }
     return "I'm moving.. not right now atleast.";
 }

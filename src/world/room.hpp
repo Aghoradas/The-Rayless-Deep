@@ -7,8 +7,8 @@
 #include <vector>
 
 #include "../game/game_event.hpp"
-#include "../objects/components/light_component.hpp"
 #include "../objects/object.hpp"
+#include "light_env.hpp"
 
 class RoomDoor;
 class Player;
@@ -18,8 +18,6 @@ class Room {
 
   public:
     int room_id = 0;
-    LightEnv light_env;
-
     std::string room_name = "Cell";
     std::vector<std::string> generic_desc = {
         "I can't see anything.",
@@ -56,13 +54,10 @@ class Room {
         "The stones of this cell are rough, cold, and damp.";
 
     std::string near_room_info = "This room is utter darkness.";
+    LightEnv light_env{};
     std::unordered_map<std::string, std::shared_ptr<RoomDoor>> doors;
     std::unordered_map<std::string, int> exits;
     std::vector<Object *> room_items;
-
-    std::unordered_map<std::string, std::string> interactables;
-
-    // std::vector<std::weak_ptr<Player>> players; future use
 
     bool init(GameState &state);
     void set_exits(std::string direction, int next_room);

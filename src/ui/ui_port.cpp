@@ -39,7 +39,7 @@ bool ui::GameText::init(int screen_width, int screen_height) {
     ui_frame.width = screen_width;
     ui_frame.height = screen_height;
 
-    player_font_location = "../fonts/LiberationSans-BoldItalic.ttf";
+    player_font_location = "../fonts/ProggyCleanM-R.ttf";
 
     int time_out_font = 0;
     do {
@@ -165,7 +165,7 @@ void ui::GameText::draw_game(size_t screen_width, size_t screen_height,
             text_position.y += text_height;
         } else if (current_line.type == EventType::Command) {
             DrawTextEx(player_font, current_line.text.c_str(), text_position,
-                       game_font_size, 4, LIGHTGRAY);
+                       game_font_size, 4, WHITE);
             text_position.y += text_height;
         }
     }

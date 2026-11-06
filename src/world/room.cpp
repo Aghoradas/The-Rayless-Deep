@@ -36,7 +36,10 @@ bool Room::is_alias(const Command &command, Object &item) {
 
 std::string Room::get_generic() { return generic_desc.at(light_env.light); }
 std::string Room::get_examine() { return examine_desc.at(light_env.light); }
-std::string Room::get_look() { return look_desc.at(light_env.light); }
+std::string Room::get_look() {
+    std::println("Light_lvl: {}.", light_env.light);
+    return look_desc.at(static_cast<int>(light_env.light));
+}
 
 std::string Room::find_object_info(const Command &command) {
     std::cout << "find_object_info: ";

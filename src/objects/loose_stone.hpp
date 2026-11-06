@@ -54,6 +54,15 @@ class LooseStone : public Object {
         std::string none = "none";
         return none;
     }
+    bool has_component(CompType type) override {
+        if (components.has_component(type)) {
+            return true;
+        }
+        return false;
+    }
+    Component *get_comp(CompType type) override {
+        return components.get_component(type);
+    }
     const std::vector<std::string> get_aliases() override { return aliases; }
     const std::string &examine_info(int light) override {
         return examine.at(light);

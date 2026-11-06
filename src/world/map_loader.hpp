@@ -5,6 +5,7 @@
 
 class MapLoader {
   public:
+    void load_items(GameState &game_state);
     void init_world(GameState &game_state);
 };
 #endif

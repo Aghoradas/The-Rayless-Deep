@@ -40,8 +40,7 @@ class Object {
     std::string item_description = "nothing realy";
     std::vector<Interaction> interractions;
 
-    LightSource light_source;
-    CompSystem components{};
+    CompSystem components;
 
     bool takeable{false};
 
@@ -58,7 +57,16 @@ class Object {
     virtual const std::vector<std::string> get_aliases() {
         return item_aliases;
     }
-    virtual const int get_light() { return light_source.get_lvl(); }
+    virtual bool has_component(CompType type) {
+        if (components.has_component(type)) {
+            return true;
+        }
+        return false;
+    }
+    virtual Component *get_comp(CompType type) {
+        return components.get_component(type);
+    }
+    virtual const float get_light() { return 1.0f; }
 
     virtual const std::string &examine_info(int light) {
         return item_sight.at(light);

@@ -28,6 +28,7 @@ class Game {
     void update(GameState &game_state);
 
   private:
+    void calculate_light(Player &player);
     void parse_input(const ui::EventEntry &event);
     void render(Player &player, const std::string &text);
     void quit();

@@ -1,6 +1,7 @@
+#include "objects/object.hpp"
 #define JSON_HAS_CPP_23
-#include "map_loader.hpp"
 #include "data/nl_json/nlohmann/json.hpp"
+#include "map_loader.hpp"
 
 #include <filesystem>
 #include <fstream>
@@ -23,13 +24,13 @@ Json open_file_tojson(const std::filesystem::path &file_path) {
     if (!file) {
         std::cerr << "*Error openning WorldLoader file_path" << std::endl;
     }
+
     Json data;
     file >> data;
 
     if (!data.is_object()) {
         std::cerr << "*Error streaming json file to data." << std::endl;
     }
-
     return data;
 }
 
@@ -45,28 +46,26 @@ bool check_element(const std::string &key, const Json &element) {
     return true;
 }
 
-std::shared_ptr<Room> json_to_room(const std::string &key,
+std::shared_ptr<Room> json_to_room(const GameState &game_state,
+                                   const std::string &key,
                                    const Json &element) {
     auto room = std::make_shared<Room>();
-
     if (!check_element(key, element)) {
         exit(1);
     }
-
-    std::println("-Json_to_room test: {}", element.at("room_id").get<int>());
-
+    std::println("*Json_to_room test: {}", element.at("room_id").get<int>());
     if (element["room_id"].is_number_integer()) {
         room->room_id = element["room_id"].get<int>();
     }
     if (element["room_name"].is_string()) {
         room->room_name = element.at("room_name").get<std::string>();
-        std::println("-{}", room->room_name);
+        std::println("*{}", room->room_name);
     }
     if (element["generic_desc"].is_array()) {
-        std::println("-Element: generic_desc");
+        std::println("*Element: generic_desc");
         room->generic_desc.clear();
         for (const auto &el : element["generic_desc"]) {
-            std::println("-For generic_desc &el");
+            std::println("*For generic_desc &el");
             room->generic_desc.push_back(el.get<std::string>());
         }
     }
@@ -98,10 +97,22 @@ std::shared_ptr<Room> json_to_room(const std::string &key,
         room->near_room_info = element["near_room_info"].get<std::string>();
     }
     if (element["exits"].is_array()) {
-        std::println("-Exits for {} reached.", room->room_name);
+        std::println("*Exits for {} reached.", room->room_name);
+        for (const auto &el : element["exits"]) {
+            room->exits.emplace(el["direction"].get<std::string>(),
+                                el["destination"].get<int>());
+        }
     }
     if (element["room_items"].is_array()) {
-        std::println("-Room_items for {} reached.", room->room_name);
+        std::println("*Room_items for {} reached.", room->room_name);
+        for (auto &el : element["room_items"]) {
+            int item_num = el.get<int>();
+            std::println("*Room_items for {} complete.", room->room_name);
+            auto *item = game_state.world_items.at(item_num).get();
+            std::println("*Room_items for {} complete.", item->item_type);
+            room->room_items.push_back(item);
+        }
+        std::println("*Room_items for {} complete.", room->room_name);
     }
     return room;
 }
@@ -109,21 +120,20 @@ std::shared_ptr<Room> json_to_room(const std::string &key,
 void MapLoader::init_world(GameState &game_state) {
     const std::filesystem::path &file_path = "../src/world/data/room_data.json";
     Json data = open_file_tojson(file_path);
-    std::cout << "\nGeneric_desc test: "
+    std::cout << "\nRoom_name test: "
               << data["world_map"][0].at("room_name").get<std::string>()
               << std::endl;
-
     size_t contained_rooms = data["contained_rooms"].get<int>();
-    std::println("-Contained_rooms: {}", contained_rooms);
+    std::println("*Contained_rooms: {}", contained_rooms);
     if (!data["world_map"].is_array()) {
         std::println("*json.at(\"world_map\") is not an object.");
     }
-
-    std::println("-Json world_map test, room_name: {}",
+    std::println("*Json world_map test, room_name: {}",
                  data["world_map"][0]["room_name"].get<std::string>());
-
     std::vector<std::shared_ptr<Room>> world_rooms;
     for (auto &element : data["world_map"].items()) {
-        world_rooms.push_back(json_to_room(element.key(), element.value()));
+        world_rooms.push_back(
+            json_to_room(game_state, element.key(), element.value()));
     }
+    game_state.rooms = world_rooms;
 }
